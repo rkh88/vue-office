@@ -1,0 +1,85 @@
+<template>
+  <div id="app">
+    <h1> Todo application </h1>
+    <Addtodo 
+      @add-todo='addTodo'
+
+    />
+    <hr>
+    <Todolist 
+      v-bind:todos='todos'
+      @remove-todo='removeTodo'
+
+    />
+  </div>
+</template>
+
+<script>
+
+import Todolist from '@/components/Todolist'
+import Addtodo from '@/components/Addtodo'
+
+export default {
+  name: 'App',
+
+  data() {
+    return {
+      todos: [
+        {id: 1, title: 'Купить хлеб', completed: false},
+        {id: 2, title: 'Купить молоко', completed: false},
+        {id: 3, title: 'Купить сметану', completed: false}
+
+
+      ]
+
+
+
+    }
+
+
+  },
+
+  mounted () {
+
+  fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
+  .then(response => response.json())
+  .then(json => {
+
+    this.todos = json})
+
+
+  },
+
+  methods: {
+
+    removeTodo(id) {
+      this.todos = this.todos.filter(t => t.id !== id)
+
+
+
+    },
+    addTodo(todo) {
+      this.todos.push(todo)
+
+
+    }
+
+
+  },
+
+  components: {
+    Todolist, Addtodo
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
